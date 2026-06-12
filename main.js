@@ -16,7 +16,10 @@ let authToken = null;
 
 function startBackend() {
   const serverPath = path.join(__dirname, "backend", "server.py");
-  const pythonPath = path.join(__dirname, "venv", "bin", "python3");
+  const isWindows = process.platform === "win32";
+  const pythonDir = isWindows ? path.join("venv", "Scripts") : path.join("venv", "bin");
+  const pythonCmd = isWindows ? "python.exe" : "python3";
+  const pythonPath = path.join(__dirname, pythonDir, pythonCmd);
   pythonProcess = spawn(pythonPath, [serverPath], {
     stdio: ["pipe", "pipe", "pipe"],
     env: { ...process.env },
