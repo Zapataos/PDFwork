@@ -72,7 +72,21 @@ chmod +x pdfwork.sh
 ./pdfwork.sh
 ```
 
-Puedes crear un acceso directo `.desktop` apuntando a este script.
+Creá un acceso directo `.desktop` para el menú de aplicaciones:
+
+```ini
+# ~/.local/share/applications/pdfwork.desktop
+[Desktop Entry]
+Name=PDFWorks
+Comment=Editor de PDFs — convertir, combinar, comprimir y más
+Exec=/ruta/a/PDFwork/pdfwork.sh
+Icon=/ruta/a/PDFwork/assets/icon.png
+Terminal=false
+Type=Application
+Categories=Office;
+```
+
+Reemplazá `/ruta/a/PDFwork` por la ubicación real donde clonaste el proyecto.
 
 ### Solo backend (desarrollo)
 
