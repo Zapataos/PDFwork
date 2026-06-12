@@ -65,11 +65,11 @@ Esto inicia el backend FastAPI en `127.0.0.1:17300` y lanza la ventana de Electr
 
 ### Acceso directo (Linux)
 
-El script `ilovepdf.sh` lanza la aplicación con un solo clic:
+El script `pdfwork.sh` lanza la aplicación con un solo clic:
 
 ```bash
-chmod +x ilovepdf.sh
-./ilovepdf.sh
+chmod +x pdfwork.sh
+./pdfwork.sh
 ```
 
 Puedes crear un acceso directo `.desktop` apuntando a este script.
@@ -111,6 +111,6 @@ Requiere que el entorno virtual `venv/` esté presente junto al ejecutable o emp
 │   └── style.css
 ├── main.js               # Proceso principal de Electron
 ├── preload.js            # Context bridge seguro
-├── ilovepdf.sh           # Lanzador rápido Linux
+├── pdfwork.sh            # Lanzador rápido Linux
 └── assets/
 ```
