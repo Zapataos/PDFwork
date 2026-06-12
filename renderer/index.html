@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src http://127.0.0.1:*;">
+  <title>PDFWorks</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="logo">PDF<span>Works</span></div>
+  <nav class="tools-nav">
+    <button class="tool-btn active" data-tool="office-to-pdf">
+      <span class="tool-icon">📎→📑</span>
+      <span data-i18n="toolOfficeToPdf">Office a PDF</span>
+    </button>
+    <button class="tool-btn" data-tool="merge">
+      <span class="tool-icon">⊕</span>
+      <span data-i18n="toolMerge">Combinar</span>
+    </button>
+    <button class="tool-btn" data-tool="split">
+      <span class="tool-icon">⊘</span>
+      <span data-i18n="toolSplit">Dividir</span>
+    </button>
+    <button class="tool-btn" data-tool="delete-pages">
+      <span class="tool-icon">✂️</span>
+      <span data-i18n="toolDeletePages">Eliminar págs</span>
+    </button>
+    <button class="tool-btn" data-tool="reorder-pages">
+      <span class="tool-icon">⇅</span>
+      <span data-i18n="toolReorderPages">Ordenar págs</span>
+    </button>
+    <button class="tool-btn" data-tool="compress">
+      <span class="tool-icon">↘</span>
+      <span data-i18n="toolCompress">Comprimir</span>
+    </button>
+    <button class="tool-btn" data-tool="pdf-to-word">
+      <span class="tool-icon">P→W</span>
+      <span data-i18n="toolPdfToWord">PDF a Word</span>
+    </button>
+    <button class="tool-btn" data-tool="pdf-to-jpg">
+      <span class="tool-icon">📑→🖼</span>
+      <span data-i18n="toolPdfToJpg">PDF a JPG</span>
+    </button>
+    <button class="tool-btn" data-tool="images-to-pdf">
+      <span class="tool-icon">🖼</span>
+      <span data-i18n="toolImagesToPdf">Imágenes a PDF</span>
+    </button>
+    <button class="tool-btn" data-tool="protect">
+      <span class="tool-icon">🔒</span>
+      <span data-i18n="toolProtect">Proteger</span>
+    </button>
+    <button class="tool-btn" data-tool="unprotect">
+      <span class="tool-icon">🔓</span>
+      <span data-i18n="toolUnprotect">Desproteger</span>
+    </button>
+    <button class="tool-btn" data-tool="rotate">
+      <span class="tool-icon">↻</span>
+      <span data-i18n="toolRotate">Rotar</span>
+    </button>
+    <button class="tool-btn" data-tool="watermark">
+      <span class="tool-icon">〰</span>
+      <span data-i18n="toolWatermark">Marca de agua</span>
+    </button>
+    <button class="tool-btn" data-tool="extract-images">
+      <span class="tool-icon">⬇</span>
+      <span data-i18n="toolExtractImages">Extraer img</span>
+    </button>
+    <button class="tool-btn" data-tool="darkmode">
+      <span class="tool-icon">🌙</span>
+      <span data-i18n="toolDarkmode">PDF Dark</span>
+    </button>
+  </nav>
+  <div class="sidebar-bottom">
+    <button class="theme-toggle" id="theme-toggle">
+      <span class="toggle-icon" id="theme-icon">🌙</span>
+      <span id="theme-label" data-i18n="themeDark">Modo oscuro</span>
+    </button>
+    <div class="lang-selector">
+      <button class="lang-btn active" data-lang="es">ES</button>
+      <button class="lang-btn" data-lang="en">EN</button>
+      <button class="lang-btn" data-lang="pt">PT</button>
+    </div>
+  </div>
+</aside>
+
+<main class="content">
+
+  <section class="tool-panel active" id="panel-office-to-pdf">
+    <h1 data-i18n="o2pTitle">Office a PDF</h1>
+    <p data-i18n="o2pDesc">Convierte documentos Word, PowerPoint o Excel a PDF arrastrándolos aquí.</p>
+    <div class="dropzone" id="dropzone-office-to-pdf">
+      <div class="dropzone-icon">📄 ➜ 📑</div>
+      <p data-i18n="o2pDropText">Arrastra archivos Office aquí</p>
+      <span data-i18n="or">o</span>
+      <button class="btn-outline select-files-btn" data-i18n="selectFiles">Seleccionar archivos</button>
+    </div>
+    <div class="file-list" id="file-list-office-to-pdf"></div>
+    <button class="btn-primary process-btn" disabled data-i18n="o2pBtn">Convertir a PDF</button>
+    <div class="result-area"></div>
+  </section>
+
+  <section class="tool-panel" id="panel-merge">
+    <h1 data-i18n="mergeTitle">Combinar archivos</h1>
+    <p data-i18n="mergeDesc">Une varios PDFs o Word en un solo PDF. Arrástralos en el orden deseado.</p>
+    <div class="dropzone" id="dropzone-merge">
+      <div class="dropzone-icon">📄 + 📄 = 📑</div>
+      <p data-i18n="mergeDropText">Arrastra PDFs o Word aquí (en orden)</p>
+      <span data-i18n="or">o</span>
+      <button class="btn-outline select-files-btn" data-i18n="selectFiles">Seleccionar archivos</button>
+    </div>
+    <div class="file-list sortable" id="file-list-merge"></div>
+    <button class="btn-primary process-btn" disabled data-i18n="mergeBtn">Combinar PDFs</button>
+    <div class="result-area"></div>
+  </section>
+
+  <section class="tool-panel" id="panel-split">
+    <h1 data-i18n="splitTitle">Dividir PDF</h1>
+    <p data-i18n="splitDesc">Separa las páginas de un PDF o extrae un rango específico.</p>
+    <div class="dropzone" id="dropzone-split">
+      <div class="dropzone-icon">📑 ➜ 📄📄📄</div>
+      <p data-i18n="splitDropText">Arrastra un PDF aquí</p>
+      <span data-i18n="or">o</span>
+      <button class="btn-outline select-files-btn" data-i18n="selectFile">Seleccionar archivo</button>
+    </div>
+    <div class="file-list" id="file-list-split"></div>
+    <div class="inline-options">
+      <label>
+        <input type="checkbox" id="split-extract-range"> <span data-i18n="splitExtractRange">Extraer rango de páginas</span>
+      </label>
+      <input type="text" id="split-range" class="input" data-i18n-placeholder="splitRangePlaceholder" placeholder="Ej: 1-3,5,7" style="display:none;width:200px;">
+    </div>
+    <button class="btn-primary process-btn" disabled data-i18n="splitBtn">Dividir PDF</button>
+    <div class="result-area"></div>
+  </section>
+
+  <section class="tool-panel" id="panel-delete-pages">
+    <h1 data-i18n="deleteTitle">Eliminar páginas</h1>
+    <p data-i18n="deleteDesc">Elimina páginas específicas de un PDF. Indica los números separados por comas.</p>
+    <div class="dropzone" id="dropzone-delete-pages">
+      <div class="dropzone-icon">✂️</div>
+      <p data-i18n="dropTextSingle">Arrastra un PDF aquí</p>
+      <span data-i18n="or">o</span>
+      <button class="btn-outline select-files-btn" data-i18n="selectFile">Seleccionar archivo</button>
+    </div>
+    <div class="file-list" id="file-list-delete-pages"></div>
+    <div class="inline-options">
+      <label><span data-i18n="deletePagesLabel">Páginas a eliminar (Ej: 2,5,7-9):</span></label>
+      <input type="text" class="input" id="delete-pages-input" data-i18n-placeholder="deletePagesPlaceholder" placeholder="Ej: 2,5,7-9">
+    </div>
+    <button class="btn-primary process-btn" disabled data-i18n="deleteBtn">Eliminar páginas</button>
+    <div class="result-area"></div>
+  </section>
+
+  <section class="tool-panel" id="panel-reorder-pages">
+    <h1 data-i18n="reorderTitle">Ordenar páginas</h1>
+    <p data-i18n="reorderDesc">Reordena las páginas de tu PDF en el orden que desees. Ej: 3,1,2,5,4.</p>
+    <div class="dropzone" id="dropzone-reorder-pages">
+      <div class="dropzone-icon">⇅</div>
+      <p data-i18n="dropTextSingle">Arrastra un PDF aquí</p>
+      <span data-i18n="or">o</span>
+      <button class="btn-outline select-files-btn" data-i18n="selectFile">Seleccionar archivo</button>
+    </div>
+    <div class="file-list" id="file-list-reorder-pages"></div>
+    <div class="inline-options">
+      <label><span data-i18n="reorderLabel">Nuevo orden (Ej: 3,1,2,5,4):</span></label>
+      <input type="text" class="input" id="reorder-input" data-i18n-placeholder="reorderPlaceholder" placeholder="Ej: 3,1,2,5,4">
+    </div>
+    <button class="btn-primary process-btn" disabled data-i18n="reorderBtn">Reordenar páginas</button>
+    <div class="result-area"></div>
+  </section>
+
+  <section class="tool-panel" id="panel-compress">
+    <h1 data-i18n="compressTitle">Comprimir PDF</h1>
+    <p data-i18n="compressDesc">Reduce el tamaño de tu archivo PDF sin perder calidad.</p>
+    <div class="dropzone" id="dropzone-compress">
+      <div class="dropzone-icon">📑 ➘</div>
+      <p data-i18n="dropTextSingle">Arrastra un PDF aquí</p>
+      <span data-i18n="or">o</span>
+      <button class="btn-outline select-files-btn" data-i18n="selectFile">Seleccionar archivo</button>
+    </div>
+    <div class="file-list" id="file-list-compress"></div>
+    <button class="btn-primary process-btn" disabled data-i18n="compressBtn">Comprimir PDF</button>
+    <div class="result-area"></div>
+  </section>
+
+  <section class="tool-panel" id="panel-pdf-to-word">
+    <h1 data-i18n="p2wTitle">PDF a Word</h1>
+    <p data-i18n="p2wDesc">Convierte archivos PDF a documentos Word (.docx) editables.</p>
+    <div class="dropzone" id="dropzone-pdf-to-word">
+      <div class="dropzone-icon">📑 ➜ 📄</div>
+      <p data-i18n="p2wDropText">Arrastra archivos PDF aquí</p>
+      <span data-i18n="or">o</span>
+      <button class="btn-outline select-files-btn" data-i18n="selectFiles">Seleccionar archivos</button>
+    </div>
+    <div class="file-list" id="file-list-pdf-to-word"></div>
+    <button class="btn-primary process-btn" disabled data-i18n="p2wBtn">Convertir a Word</button>
+    <div class="result-area"></div>
+  </section>
+
+  <section class="tool-panel" id="panel-pdf-to-jpg">
+    <h1 data-i18n="p2jpgTitle">PDF a JPG</h1>
+    <p data-i18n="p2jpgDesc">Convierte cada página de un PDF en una imagen JPG de alta calidad.</p>
+    <div class="dropzone" id="dropzone-pdf-to-jpg">
+      <div class="dropzone-icon">📑 ➜ 🖼</div>
+      <p data-i18n="dropTextSingle">Arrastra un PDF aquí</p>
+      <span data-i18n="or">o</span>
+      <button class="btn-outline select-files-btn" data-i18n="selectFile">Seleccionar archivo</button>
+    </div>
+    <div class="file-list" id="file-list-pdf-to-jpg"></div>
+    <button class="btn-primary process-btn" disabled data-i18n="p2jpgBtn">Convertir a JPG</button>
+    <div class="result-area"></div>
+  </section>
+
+  <section class="tool-panel" id="panel-images-to-pdf">
+    <h1 data-i18n="img2pdfTitle">Imágenes a PDF</h1>
+    <p data-i18n="img2pdfDesc">Convierte imágenes (JPG, PNG, GIF, BMP, WEBP) a un solo PDF.</p>
+    <div class="dropzone" id="dropzone-images-to-pdf">
+      <div class="dropzone-icon">🖼 ➜ 📑</div>
+      <p data-i18n="img2pdfDropText">Arrastra imágenes aquí</p>
+      <span data-i18n="or">o</span>
+      <button class="btn-outline select-files-btn" data-i18n="selectFiles">Seleccionar archivos</button>
+    </div>
+    <div class="file-list" id="file-list-images-to-pdf"></div>
+    <button class="btn-primary process-btn" disabled data-i18n="img2pdfBtn">Convertir a PDF</button>
+    <div class="result-area"></div>
+  </section>
+
+  <section class="tool-panel" id="panel-protect">
+    <h1 data-i18n="protectTitle">Proteger PDF</h1>
+    <p data-i18n="protectDesc">Añade una contraseña para proteger tu PDF.</p>
+    <div class="dropzone" id="dropzone-protect">
+      <div class="dropzone-icon">🔐</div>
+      <p data-i18n="dropTextSingle">Arrastra un PDF aquí</p>
+      <span data-i18n="or">o</span>
+      <button class="btn-outline select-files-btn" data-i18n="selectFile">Seleccionar archivo</button>
+    </div>
+    <div class="file-list" id="file-list-protect"></div>
+    <div class="inline-options">
+      <label><span data-i18n="password">Contraseña:</span></label>
+      <input type="password" class="input" id="protect-password" data-i18n-placeholder="passwordPlaceholder" placeholder="Ingresa la contraseña">
+    </div>
+    <button class="btn-primary process-btn" disabled data-i18n="protectBtn">Proteger PDF</button>
+    <div class="result-area"></div>
+  </section>
+
+  <section class="tool-panel" id="panel-unprotect">
+    <h1 data-i18n="unprotectTitle">Desproteger PDF</h1>
+    <p data-i18n="unprotectDesc">Quita la contraseña de un PDF protegido.</p>
+    <div class="dropzone" id="dropzone-unprotect">
+      <div class="dropzone-icon">🔓</div>
+      <p data-i18n="dropTextSingle">Arrastra un PDF aquí</p>
+      <span data-i18n="or">o</span>
+      <button class="btn-outline select-files-btn" data-i18n="selectFile">Seleccionar archivo</button>
+    </div>
+    <div class="file-list" id="file-list-unprotect"></div>
+    <div class="inline-options">
+      <label><span data-i18n="currentPassword">Contraseña actual:</span></label>
+      <input type="password" class="input" id="unprotect-password" data-i18n-placeholder="currentPwPlaceholder" placeholder="Contraseña del PDF">
+    </div>
+    <button class="btn-primary process-btn" disabled data-i18n="unprotectBtn">Desproteger PDF</button>
+    <div class="result-area"></div>
+  </section>
+
+  <section class="tool-panel" id="panel-rotate">
+    <h1 data-i18n="rotateTitle">Rotar PDF</h1>
+    <p data-i18n="rotateDesc">Gira las páginas de tu PDF (90°, 180°, 270°).</p>
+    <div class="dropzone" id="dropzone-rotate">
+      <div class="dropzone-icon">🔄</div>
+      <p data-i18n="dropTextSingle">Arrastra un PDF aquí</p>
+      <span data-i18n="or">o</span>
+      <button class="btn-outline select-files-btn" data-i18n="selectFile">Seleccionar archivo</button>
+    </div>
+    <div class="file-list" id="file-list-rotate"></div>
+    <div class="inline-options">
+      <label><span data-i18n="pagesLabel">Páginas (Ej: 1-3,5,7):</span></label>
+      <input type="text" class="input" id="rotate-pages" data-i18n-placeholder="allPages" placeholder="todas">
+      <label><span data-i18n="angle">Ángulo:</span></label>
+      <select class="input" id="rotate-angle">
+        <option value="90">90°</option>
+        <option value="180">180°</option>
+        <option value="270">270°</option>
+      </select>
+    </div>
+    <button class="btn-primary process-btn" disabled data-i18n="rotateBtn">Rotar PDF</button>
+    <div class="result-area"></div>
+  </section>
+
+  <section class="tool-panel" id="panel-watermark">
+    <h1 data-i18n="watermarkTitle">Marca de agua</h1>
+    <p data-i18n="watermarkDesc">Añade una marca de agua de texto a las páginas de tu PDF.</p>
+    <div class="dropzone" id="dropzone-watermark">
+      <div class="dropzone-icon">〰</div>
+      <p data-i18n="dropTextSingle">Arrastra un PDF aquí</p>
+      <span data-i18n="or">o</span>
+      <button class="btn-outline select-files-btn" data-i18n="selectFile">Seleccionar archivo</button>
+    </div>
+    <div class="file-list" id="file-list-watermark"></div>
+    <div class="inline-options">
+      <label><span data-i18n="wmText">Texto:</span></label>
+      <input type="text" class="input" id="watermark-text" data-i18n-placeholder="wmTextPlaceholder" placeholder="CONFIDENCIAL" value="CONFIDENCIAL">
+      <label><span data-i18n="wmOpacity">Opacidad:</span></label>
+      <input type="number" class="input" id="watermark-opacity" value="0.12" min="0.02" max="0.5" step="0.01" style="width:70px;">
+    </div>
+    <button class="btn-primary process-btn" disabled data-i18n="watermarkBtn">Añadir marca de agua</button>
+    <div class="result-area"></div>
+  </section>
+
+  <section class="tool-panel" id="panel-extract-images">
+    <h1 data-i18n="extractTitle">Extraer Imágenes</h1>
+    <p data-i18n="extractDesc">Extrae todas las imágenes incrustadas en un PDF.</p>
+    <div class="dropzone" id="dropzone-extract-images">
+      <div class="dropzone-icon">📥</div>
+      <p data-i18n="dropTextSingle">Arrastra un PDF aquí</p>
+      <span data-i18n="or">o</span>
+      <button class="btn-outline select-files-btn" data-i18n="selectFile">Seleccionar archivo</button>
+    </div>
+    <div class="file-list" id="file-list-extract-images"></div>
+    <button class="btn-primary process-btn" disabled data-i18n="extractBtn">Extraer imágenes</button>
+    <div class="result-area"></div>
+  </section>
+
+  <section class="tool-panel" id="panel-darkmode">
+    <h1 data-i18n="darkTitle">Modo oscuro PDF</h1>
+    <p data-i18n="darkDesc">Convierte tu PDF a modo oscuro para lectura nocturna sin cansar la vista. Ideal para leer desde el celular.</p>
+    <div class="dropzone" id="dropzone-darkmode">
+      <div class="dropzone-icon">🌙 ➜ 📑</div>
+      <p data-i18n="dropTextSingle">Arrastra un PDF aquí</p>
+      <span data-i18n="or">o</span>
+      <button class="btn-outline select-files-btn" data-i18n="selectFile">Seleccionar archivo</button>
+    </div>
+    <div class="file-list" id="file-list-darkmode"></div>
+    <button class="btn-primary process-btn" disabled data-i18n="darkBtn">Convertir a modo oscuro</button>
+    <div class="result-area"></div>
+  </section>
+
+</main>
+
+<div class="toast" id="toast"></div>
+<div class="loading-overlay" id="loading-overlay">
+  <div class="spinner"></div>
+  <p data-i18n="processing">Procesando...</p>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "name": "pdfworks",
+  "version": "1.0.0",
+  "description": "PDFWorks — Word to PDF, merge, split, compress, protect, and more",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "backend": "python3 backend/server.py",
+    "dev": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^35.0.0"
+  },
+  "dependencies": {}
+}
